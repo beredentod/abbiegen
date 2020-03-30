@@ -3,7 +3,7 @@
 #include "graph.h"
 
 //Die Funktion misst den euklidischen Abstand zwei Punkte 
-double Graph::measureDistance(iPair x, iPair y)
+double Graph::measureDistance(dPair x, dPair y)
 {
 	int a = abs(x.first - y.first);
 	int b = abs(x.second - y.second);
@@ -16,7 +16,7 @@ double Graph::measureDistance(iPair x, iPair y)
 //Anhand deren wird bestimmt, ob man abbiegt oder nicht
 //Die Formel basiert auf: 
 //https://www.geeksforgeeks.org/program-check-three-points-collinear/
-bool Graph::checkTurn(iPair a, iPair b, iPair c)
+bool Graph::checkTurn(dPair a, dPair b, dPair c)
 {
 	int d = a.first * (b.second - c.second) +  
 	        b.first * (c.second - a.second) +  
@@ -30,7 +30,7 @@ bool Graph::checkTurn(iPair a, iPair b, iPair c)
 
 //Die Funktion wandelt die Eingabe des jeweiligen Punktes um
 //und gibt die Punkte in ueblicher Form aus
-iPair Graph::convertInput(string data)
+dPair Graph::convertInput(string data)
 {
 	string data2;
 	int i = 1;
@@ -39,7 +39,7 @@ iPair Graph::convertInput(string data)
 		data2.push_back(data[i]);
 		i++;
 	}
-	int coor1 = stoi(data2);
+	double coor1 = stod(data2);
 	i++;
 	data2 = "";
 	while (data[i] != ')')
@@ -47,7 +47,7 @@ iPair Graph::convertInput(string data)
 		data2.push_back(data[i]);
 		i++;
 	}
-	int coor2 = stoi(data2);
+	double coor2 = stod(data2);
 	return make_pair(coor1, coor2);
 }
 
@@ -55,8 +55,8 @@ iPair Graph::convertInput(string data)
 //Pivotpunkte erstellt (gilt nur fuer den Graphen Typ 2)
 void Graph::createPivots()
 {
-	startPointPivot = mp(startPoint.first-1, startPoint.second);
-	endPointPivot = mp(endPoint.first+1, endPoint.second);
+	startPointPivot = mp(-1, 0);
+	endPointPivot = mp(-2, 0);
 	points.insert(startPointPivot);
 	points.insert(endPointPivot);
 	streetsList.insert(mp(startPointPivot, startPoint));
@@ -90,8 +90,8 @@ void Graph::assignIndicesOriginal()
 	//Punkte jeweiliges Punktes bestimmt
 	for (auto x: streetsList)
 	{
-		iPair a = mp(x.first.first, x.first.second);
-		iPair b = mp(x.second.first, x.second.second);
+		dPair a = mp(x.first.first, x.first.second);
+		dPair b = mp(x.second.first, x.second.second);
 		int idA = pointToID.find(a)->second;
 		int idB = pointToID.find(b)->second;
 		double distA_B = measureDistance(a,b); //Messung der Entfernung
@@ -127,8 +127,8 @@ void Graph::assignIndices()
 	{
 		//Anhand der Liste der Strassen werden die benachbarten 
 		//Punkte jeweiliges Punktes bestimmt
-		iPair a = mp(x.first.first, x.first.second);
-		iPair b = mp(x.second.first, x.second.second);
+		dPair a = mp(x.first.first, x.first.second);
+		dPair b = mp(x.second.first, x.second.second);
 		int idA = pointToID.find(a)->second;
 		int idB = pointToID.find(b)->second;
 
@@ -141,6 +141,7 @@ void Graph::assignIndices()
 		//in zwei maps gespeichert
 		streetToID.insert(mp(x, id));
 		streetToID.insert(mp(mp(x.second, x.first), id));
+		streetToID.insert(mp(mp(x.first, x.second), id));
 		IDToStreet.insert(mp(id, x));
 		IDToStreet.insert(mp(id, mp(x.second, x.first)));
 
@@ -192,7 +193,7 @@ void Graph::determineTurns()
 		for (auto y: sA)
 		{
 			//der aktuelle Nachbar des Punktes A in der aktuellen Strasse x
-			iPair matePoint = IDToPoint.find(y.first)->second;
+			dPair matePoint = IDToPoint.find(y.first)->second;
 
 			//der ID der Strasse der Punte matePoint und A
 			int currMateStreetID = streetToID.find(mp(x.first, matePoint))->second;
@@ -226,7 +227,7 @@ void Graph::determineTurns()
 
 		for (auto y: sB)
 		{
-			iPair matePoint = IDToPoint.find(y.first)->second;
+			dPair matePoint = IDToPoint.find(y.first)->second;
 			int currMateStreetID = streetToID.find(mp(x.second, matePoint))->second;
 
 			bool currTurn = checkTurn(x.first, x.second, matePoint);
@@ -260,10 +261,10 @@ void Graph::determineTurns()
 
 //Mit Hilfe dieser Funktion werden Informationen ueber des Graphen
 //aus der Datei eingelesen, um einen Graphen-Typ 1 zu bauen
-void Graph::readFileOriginal(string fileName, set<pair<iPair, iPair>> &streetsList, set<iPair> &points)
+void Graph::readFileOriginal(string fileName, set<pair<dPair, dPair>> &streetsList, set<dPair> &points)
 {
 	int streets; 		//Anzahl der Strassen
-	iPair start, end;	//Startpunkt und Zielpunkt
+	dPair start, end;	//Startpunkt und Zielpunkt
 
 	ifstream file(fileName.c_str());
 	if (!file) //falls die Datei nicht gefunden wird
@@ -287,9 +288,9 @@ void Graph::readFileOriginal(string fileName, set<pair<iPair, iPair>> &streetsLi
 	for (int i=0;i<streets;i++)
 	{
 		file>>data;
-		iPair p1 = convertInput(data);
+		dPair p1 = convertInput(data);
 		file>>data;
-		iPair p2 = convertInput(data);
+		dPair p2 = convertInput(data);
 		streetsList.insert(mp(p1, p2));
 
 		if (p1 != start || p1 != end)
@@ -346,10 +347,10 @@ void Graph::readFileOriginal(string fileName, set<pair<iPair, iPair>> &streetsLi
 
 //Mit Hilfe dieser Funktion werden Informationen ueber des Graphen
 //aus der Datei eingelesen, um einen Graphen-Typ 2 zu bauen
-void Graph::readFile(string fileName, set<pair<iPair, iPair>> &streetsList, set<iPair> &points)
+void Graph::readFile(string fileName, set<pair<dPair, dPair>> &streetsList, set<dPair> &points, dPair interP)
 {
 	int streets; 		//Anzahl der Strassen
-	iPair start, end;	//Startpunkt und Zielpunkt
+	dPair start, end;	//Startpunkt und Zielpunkt
 
 	ifstream file(fileName.c_str()); 
 	if (!file) //falls die Datei nicht gefunden wird
@@ -373,9 +374,9 @@ void Graph::readFile(string fileName, set<pair<iPair, iPair>> &streetsList, set<
 	for (int i=0;i<streets;i++)
 	{
 		file>>data;
-		iPair p1 = convertInput(data);
+		dPair p1 = convertInput(data);
 		file>>data;
-		iPair p2 = convertInput(data);
+		dPair p2 = convertInput(data);
 		streetsList.insert(mp(p1, p2));
 
 		if (p1 != start || p1 != end)

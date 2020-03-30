@@ -39,6 +39,8 @@ void Dijkstra::determineConnections(Node* start, Node* end, bool direction)
 		//ist der aktuelle Knoten
 		Node* currNode = *(pQ.begin());
 
+		std::cout<<currNode->getID()<<"\n";
+
 		//wir entfernen den aktuellen Knoten
 		pQ.erase(pQ.begin());
 		
@@ -93,8 +95,8 @@ void Dijkstra::determineConnections(Node* start, Node* end, bool direction)
 				for (; it3 != pQ.end(); ++it3)
 					if ((*it3)->getID() == (*it)->getID()) break;
 
-				//wenn der aktuelle Nachbar nicht das letzte Element 
-				//in der V-Schlange ist, entfernen wird seinen ID
+				//wenn der aktuelle Nachbar
+				//in der V-Schlange ist, entfernen wird ihn
 				if (it3 != pQ.end())
 					pQ.erase(it3);
 
@@ -135,7 +137,7 @@ Path* Dijkstra::calculateShortestPath(Node* start, Node* end)
 			//der neue aktuelle Knoten ist der gefundene Vorgaenger
 			currNode = it2->second;
 
-		//wir setzen fort bis der aktuelle Knoten der Startknoten ist
+		//wir setzen fort, bis der aktuelle Knoten der Startknoten ist
 		} while (currNode != start); 
 
 		//wir fuegen den Starknoten am Anfang des Pfades ein
@@ -220,6 +222,8 @@ void Dijkstra::updateInDistance(Node* n)
 	vector<Node*> v;
 	v.pb(n);
 
+	std::cout<<"Update In: "<<n->getID()<<"\n";
+
 	while(!v.empty())
  	{
 		Node* currNode = *(v.begin());
@@ -251,6 +255,7 @@ void Dijkstra::updateInDistance(Node* n)
 				//wir fuegen den Nachbarn in den Vektor ein,
 				//um auf ihn danach Veraenderungen durchzufuehren
 				v.pb(*it);
+				std::cout<<"next: "<<(*it)->getID()<<"\n";
 			}
 		}
 	}

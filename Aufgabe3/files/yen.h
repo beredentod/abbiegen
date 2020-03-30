@@ -69,7 +69,7 @@ public:
 		//der aktuelle Pfad wird in die Ergebnissenlisten einfeguegt
 		A.pb(currPath);
 		
-		//der Abzweigunsknoten gilt als Knoten, ab dem wir 
+		//der spurNode (Abzweigungsknoten) gilt als Knoten, ab dem wir 
 		//wir den Pfad veraendern
 		Node* spurNode = pathsToSpurNodes.find(currPath)->second; 
 
@@ -120,12 +120,11 @@ public:
 			G->removeEdge(mp(currPath->getNode(i)->getID(), currPath->getNode(i+1)->getID()));
 		}
 
-		//wir lassen den Dijkstra-Algorithmus laufen, 
-		//um in den veraenderten Graphen
-		//neue Pfade zu finden, aber zuerst 
-		//muessen wir den Graphen entsprechend aktualisieren
-		Dijkstra rGraph(G);
-		rGraph.getReversedGraph(endNode);
+		//wir aktualisieren stetig
+		//die Punkte vom Zeilknoten zum spurNode 
+		//[Start (s. Ende unten) Z. 28] 
+		Dijkstra rDijkstra(G);
+		rDijkstra.getReversedTraversal(endNode);
 
 		//wir koennen jetzt die entfernten Kanten und Knoten
 		//auf dem aktuellen Pfad zurueckstellen
@@ -145,14 +144,14 @@ public:
 			//aktuellen Knotens werden aktualisiert
 			//und es entsteht ein Teilpfad vom aktuellen Knoten
 			//bis zum Knoten der bereits einen Vorgaenger hat
-			Path* totalPath = rGraph.updateOutDistance(currNode);
+			Path* totalPath = rDijkstra.updateOutDistance(currNode);
 
 			if (totalPath != NULL)
 			{
 				//die gesamte Anzahl an Abbiegungen im aktuellen Pfad
 				double totalWeight = 0;
 				//die inNodes werden um die entfernten Kanten und Knoten aktualisiert
-				rGraph.updateInDistance(currNode);
+				rDijkstra.updateInDistance(currNode);
 
 				//der aktuelle Pfad (currPfad) wird zu spurPath kopiert
 				//bis auf den aktuellen Knoten, den wir entfernten
@@ -191,16 +190,16 @@ public:
 
 			//es kann sein, dass das Gewicht an der Kante sich aenderte,
 			//muessen wir es entprechend aktulisieren
-			double edgeWeight = G->getEdgeWeight(currNode, nextNode) + rGraph.getStartDistance(nextNode);
+			double edgeWeight = G->getEdgeWeight(currNode, nextNode) + rDijkstra.getStartDistance(nextNode);
 
 			//Wenn das Gewicht sich veraenderte, muessen
 			//wir die Entfernung, den Vorgaenger und die 
 			//inNodes vom aktuellen Knoten aktualisieren
-			if (rGraph.getStartDistance(currNode) > edgeWeight)
+			if (rDijkstra.getStartDistance(currNode) > edgeWeight)
 			{
-				rGraph.setStartDistance(currNode, edgeWeight);
-				rGraph.setPreviousNode(currNode, nextNode);
-				rGraph.updateInDistance(currNode);
+				rDijkstra.setStartDistance(currNode, edgeWeight);
+				rDijkstra.setPreviousNode(currNode, nextNode);
+				rDijkstra.updateInDistance(currNode);
 			}
 		}
 

@@ -149,17 +149,15 @@
 	<polyline points="1730,710 1730,830 " fill="transparent" stroke-width="3" stroke="rgb(0,0,0)" />
 	<polyline points="1730,710 1730,590 " fill="transparent" stroke-width="3" stroke="rgb(0,0,0)" />
 	<polyline points="1730,590 1730,470 " fill="transparent" stroke-width="3" stroke="rgb(0,0,0)" />
-	<polyline points="50,950 170,830 " fill="transparent" stroke-width="3" stroke="rgb(255,0,0)" />
-	<polyline points="290,830 170,830 " fill="transparent" stroke-width="3" stroke="rgb(255,0,0)" />
-	<polyline points="290,830 410,830 " fill="transparent" stroke-width="3" stroke="rgb(255,0,0)" />
-	<polyline points="530,830 410,830 " fill="transparent" stroke-width="3" stroke="rgb(255,0,0)" />
+	<polyline points="50,950 170,950 " fill="transparent" stroke-width="3" stroke="rgb(255,0,0)" />
+	<polyline points="290,950 170,950 " fill="transparent" stroke-width="3" stroke="rgb(255,0,0)" />
+	<polyline points="290,950 530,830 " fill="transparent" stroke-width="3" stroke="rgb(255,0,0)" />
 	<polyline points="530,830 650,830 " fill="transparent" stroke-width="3" stroke="rgb(255,0,0)" />
 	<polyline points="650,830 890,710 " fill="transparent" stroke-width="3" stroke="rgb(255,0,0)" />
 	<polyline points="890,710 1130,590 " fill="transparent" stroke-width="3" stroke="rgb(255,0,0)" />
-	<polyline points="1130,590 1250,590 " fill="transparent" stroke-width="3" stroke="rgb(255,0,0)" />
 	<polyline points="1250,830 1370,830 " fill="transparent" stroke-width="3" stroke="rgb(255,0,0)" />
+	<polyline points="1250,710 1130,590 " fill="transparent" stroke-width="3" stroke="rgb(255,0,0)" />
 	<polyline points="1250,710 1250,830 " fill="transparent" stroke-width="3" stroke="rgb(255,0,0)" />
-	<polyline points="1250,710 1250,590 " fill="transparent" stroke-width="3" stroke="rgb(255,0,0)" />
 	<polyline points="1370,830 1490,830 " fill="transparent" stroke-width="3" stroke="rgb(255,0,0)" />
 	<polyline points="1490,830 1610,830 " fill="transparent" stroke-width="3" stroke="rgb(255,0,0)" />
 	<polyline points="1610,830 1730,830 " fill="transparent" stroke-width="3" stroke="rgb(255,0,0)" />

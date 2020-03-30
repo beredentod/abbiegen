@@ -3,6 +3,7 @@
 #define mp make_pair
 #define pb push_back
 #define iPair pair<int,int>
+#define dPair pair<double,double>
 
 using namespace std;             
 
@@ -11,25 +12,25 @@ class Graph
 
 protected:
 	//Start- und Zielpunkte aus der Textdatei
-	iPair startPoint, endPoint; 
+	dPair startPoint, endPoint, interPoint;
 	//Pivotpunke des jeweiligen Start/Zielpunktes
-	iPair startPointPivot, endPointPivot;
+	dPair startPointPivot, endPointPivot, interPointPivot;
 
-	//Indices der o.g. Punkte
-	int startPointID, endPointID, startPointPivotID, endPointPivotID;
-	//Indices der Start- und Zielstrasse (im Graphen als Knoten)
-	int startStreetID, endStreetID;
+	//Indizes der o.g. Punkte
+	int startPointID, endPointID, interPointID, startPointPivotID, endPointPivotID, interPointPivotID;
+	//Indizes der Start- und Zielstrasse (im Graphen als Knoten)
+	int startStreetID, endStreetID, interStreetID;
 
 	//Anzahl aller Punkte aus der Textdatei
 	int pointsNum;
 	//Die Mengen von allen Strassen und Punkten aus der Textdatei
-	set<pair<iPair, iPair>> streetsList;
-	set<iPair> points;
+	set<pair<dPair, dPair>> streetsList;
+	set<dPair> points;
 
-	map<iPair, int> pointToID; 	//map: Punkt -> ID
-	map<int, iPair> IDToPoint; //map: ID -> Punkt
-	map<pair<iPair,iPair>, int> streetToID; //map: strasse -> ID
-	map<int, pair<iPair,iPair>> IDToStreet; //map: ID -> Strasse
+	map<dPair, int> pointToID; 	//map: Punkt -> ID
+	map<int, dPair> IDToPoint; //map: ID -> Punkt
+	map<pair<dPair,dPair>, int> streetToID; //map: strasse -> ID
+	map<int, pair<dPair,dPair>> IDToStreet; //map: ID -> Strasse
 	map<int, double> streetIDToWeight; //map: StrasseID -> Gewicht
 
 	//map: ID -> alle benachbarten Punkte des Punktes ID
@@ -55,28 +56,34 @@ protected:
 	//die Menge von Koten, die wir entfernen (bei Yen-Algorithmus)
 	set<int> removedNodes;		
 	//die Menge von Kanten, die wir entfernen (bei Yen-Algorithmus)
-	set<pair<int,int>> removedEdges; 
+	set<iPair> removedEdges; 
 	
 private:
 	//wandelt die Eingabe des jeweiligen Punktes um
-	iPair convertInput(string data); 
+	dPair convertInput(string data); 
 	//misst den euklidischen Abstand zwischen zwei Punkten 
-	double measureDistance(iPair a, iPair b);
+	double measureDistance(dPair a, dPair b);
 	//prueft, ob die drei Punkte auf einer Geraden liegen
-	bool checkTurn(iPair a, iPair b, iPair c);
+	bool checkTurn(dPair a, dPair b, dPair c);
 
 	//stellt den Startpunkt ein
-	void setStartPoint(iPair p) { startPoint = p; }
+	void setStartPoint(dPair p) { startPoint = p; }
 	//stellt den Zielpunkt ein
-	void setEndPoint(iPair p) { endPoint = p; }
+	void setEndPoint(dPair p) { endPoint = p; }
+	//stellt den Zwischenpunkt ein
+	void setInterPoint(dPair p) { interPoint = p; }
 	//stellt den StartpunktID ein
 	void setStartPointID(int id) { startPointID = id; }
 	//stellt den ZielpunktID ein
 	void setEndPointID(int id) { endPointID = id; }
+	//stellt den ZwischenpunktID ein
+	void setInterPointID(int id) { interPointID = id; }
 	//stellt den StartstrasseID ein
 	void setStartStreetID(int id) { startStreetID = id; }
 	//stellt den ZielstrasseID ein
 	void setEndStreetID(int id) { endStreetID = id; }
+	//stellt den ZwischenstrasseID ein
+	void setInterStreetID(int id) { interStreetID = id; }
 
 	//erstellt Pivotpunkte
 	void createPivots();
@@ -86,11 +93,13 @@ private:
 	void assignIndices();
 	//Die Abbiegungen zwischen Strassen werden bestimmt
 	void determineTurns();
+	//feugt ins Programm einen Zwischenpunkt ein
+	void addInterPoint();
 
 	//die Textdatei wird eingelsen und ein Graph-Typ 1 wird erstellt
-	void readFileOriginal(string fileName, set<pair<iPair, iPair>> &streetsList, set<iPair> &points);
+	void readFileOriginal(string fileName, set<pair<dPair, dPair>> &streetsList, set<dPair> &points);
 	//die Textdatei wird eingelsen und ein Graph-Typ 2 wird erstellt
-	void readFile(string fileName, set<pair<iPair, iPair>> &streetsList, set<iPair> &points);
+	void readFile(string fileName, set<pair<dPair, dPair>> &streetsList, set<dPair> &points, dPair interP = mp(-3,-3));
 
 public:
 
@@ -125,12 +134,12 @@ public:
 	void getInNeighbors(Node* n, set<Node*> &nodeSet);
 	
 	//entfernt eine Kante (bei Yen-Algorithmus)
-	void removeEdge(const pair<int,int> edge) { removedEdges.insert(edge); }
+	void removeEdge(const iPair edge) { removedEdges.insert(edge); }
 	//entfernt einen Knoten (bei Yen-Algorithmus)
 	void removeNode(const int nodeID) { removedNodes.insert(nodeID); }
 	
 	//entfernt eine entfernte Kante aus der Liste der entferneten Kanten
-	void restoreEdge(const pair<int,int> edge) { removedEdges.erase(removedEdges.find(edge)); }
+	void restoreEdge(const iPair edge) { removedEdges.erase(removedEdges.find(edge)); }
 	//entfernt einen entfernten Knoten aus der Liste der entferneten Knoten
 	void restoreNode(int nodeID) { removedNodes.erase(removedNodes.find(nodeID)); }
 	
@@ -139,42 +148,24 @@ public:
 	//entfernt alle Knoten aus der Liste der entferneten Knoten
 	void purgeRemovedNodes() { removedNodes.clear(); }
 
-	double retrieveAvgNumNeighbors ()
-	{
-		int sum = 0;
-		for (map<int, set<pair<int, int>>>::iterator it = streetIDToNeighbors.begin(); it != streetIDToNeighbors.end(); ++it)
-		{
-			sum += it->second.size();
-		}
-		return (double) sum/streetIDToNeighbors.size();
-	}
-
-	double retrieveGMeanNeighbors ()
-	{
-		int product = 0;
-		for (map<int, set<pair<int, int>>>::iterator it = streetIDToNeighbors.begin(); it != streetIDToNeighbors.end(); ++it)
-		{
-			product += it->second.size();
-		}
-		return pow(product, (double)1/streetIDToNeighbors.size());
-	}
-	
-
 	//Folgende Funktionen lassen die Variablen aus der Klasse abrufen
 	//und ermoeglichen die Variablen, sie spaeter in main.cpp wiederzunutzen
 	int retrieveEdgeNum() { return edgeNum; }
 	map<int, double> retrieveStreetWeights() { return streetIDToWeight; }
-	map<int, pair<iPair, iPair>> retrieveStreets() { return IDToStreet; }
-	set<iPair> retrieveAllPoints() { return points; }
-	set<pair<iPair,iPair>> retrieveAllStreets() { return streetsList; }
+	map<int, pair<dPair, dPair>> retrieveStreets() { return IDToStreet; }
+	map<pair<dPair, dPair>, int> retrieveStreetsToID() { return streetToID; }
+	map<int, set<pair<int, int>>> retrieveTurns() { return streetIDToNeighbors; }
+	map<int, dPair> retrieveIDToPoint() { return IDToPoint; }
+	set<dPair> retrieveAllPoints() { return points; }
+	set<pair<dPair,dPair>> retrieveAllStreets() { return streetsList; }
 	int retrieveStartStreet() { return startStreetID; }
 	int retrieveEndStreet() { return endStreetID; }
 	int retrieveStartPointID() { return startPointID; }
 	int retrieveEndPointID() { return endPointID; }
-	iPair retrieveStartPoint() { return startPoint; }
-	iPair retrieveStartPointPivot() { return startPointPivot; }
-	iPair retrieveEndPoint() { return endPoint; }
-	iPair retrieveEndPointPivot() { return endPointPivot; }
+	dPair retrieveStartPoint() { return startPoint; }
+	dPair retrieveStartPointPivot() { return startPointPivot; }
+	dPair retrieveEndPoint() { return endPoint; }
+	dPair retrieveEndPointPivot() { return endPointPivot; }
 };
 
 

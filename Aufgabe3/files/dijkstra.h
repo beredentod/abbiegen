@@ -38,7 +38,7 @@ public:
 	//stellt die Entfernung weight vom Ursprung des Knotens n ein
 	void setStartDistance(Node* n, double weight) { startToDistance[n] = weight; }
 	//die Pfade werden vom Ursprung bis zum Start betrachtet
-	void getReversedGraph(Node* start) { determineConnections(NULL, start, 0); }
+	void getReversedTraversal(Node* end) { determineConnections(NULL, end, 0); }
 
 	//Funktion bestimmt den kuerzesten Weg von start zu end
 	Path* calculateShortestPath(Node* start, Node* end);

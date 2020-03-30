@@ -1,0 +1,46 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/home/michalboron/C++/BWINF/38_BWINF/BWINF38_2/abbiegen/Aufgabe3/files/dijkstra.h
+
+/home/michalboron/C++/BWINF/38_BWINF/BWINF38_2/abbiegen/Aufgabe3/files/graph.h
+
+/home/michalboron/C++/BWINF/38_BWINF/BWINF38_2/abbiegen/Aufgabe3/files/main.cpp
+bits/stdc++.h
+-
+setup.h
+/home/michalboron/C++/BWINF/38_BWINF/BWINF38_2/abbiegen/Aufgabe3/files/setup.h
+graph.h
+/home/michalboron/C++/BWINF/38_BWINF/BWINF38_2/abbiegen/Aufgabe3/files/graph.h
+dijkstra.h
+/home/michalboron/C++/BWINF/38_BWINF/BWINF38_2/abbiegen/Aufgabe3/files/dijkstra.h
+yen.h
+/home/michalboron/C++/BWINF/38_BWINF/BWINF38_2/abbiegen/Aufgabe3/files/yen.h
+simple_svg.hpp
+/home/michalboron/C++/BWINF/38_BWINF/BWINF38_2/abbiegen/Aufgabe3/files/simple_svg.hpp
+
+/home/michalboron/C++/BWINF/38_BWINF/BWINF38_2/abbiegen/Aufgabe3/files/setup.h
+string
+-
+iostream
+-
+
+/home/michalboron/C++/BWINF/38_BWINF/BWINF38_2/abbiegen/Aufgabe3/files/simple_svg.hpp
+vector
+-
+string
+-
+sstream
+-
+fstream
+-
+iostream
+-
+
+/home/michalboron/C++/BWINF/38_BWINF/BWINF38_2/abbiegen/Aufgabe3/files/yen.h
+
