@@ -20,7 +20,8 @@ class Yen
 	vector<Path*> A;				 //Vektor mit Ergebnissen
 	multiset<Path*, Weight<Path>> B; //Menge mit Kanditaten
 
-	//Map, die einem Pfad seinen Anfangsknoten zuordnet
+	//Map, die einem Pfad seinen spurNode zuordnet
+	//hilft beim Pruefen, ob ein Kandidat schon existiert 
 	map<Path*, Node*> pathsToSpurNodes;		
 	
 	Node* startNode;	//Startknoten
@@ -107,7 +108,7 @@ public:
 			if (!same) continue;
 
 			//wir suchen nach dem folgenden Knoten im aktuellen Pfad,
-			//um die Kante, die ihn und den Abzweigunsknoten verbindet
+			//um die Kante, die ihn und den spurNode verbindet
 			//danach zu entfernen
 			Node* nextNode = currAPath->getNode(rootPath.size()+1);
 			G->removeEdge(mp(spurNode->getID(), nextNode->getID()));
@@ -144,9 +145,9 @@ public:
 			//aktuellen Knotens werden aktualisiert
 			//und es entsteht ein Teilpfad vom aktuellen Knoten
 			//bis zum Knoten der bereits einen Vorgaenger hat
-			Path* totalPath = rDijkstra.updateOutDistance(currNode);
+			Path* newPath = rDijkstra.updateOutDistance(currNode);
 
-			if (totalPath != NULL)
+			if (newPath != NULL)
 			{
 				//die gesamte Anzahl an Abbiegungen im aktuellen Pfad
 				double totalWeight = 0;
@@ -168,12 +169,12 @@ public:
 						break;
 				}
 
-				//totalPath wird am Ende von prePath eingefuegt
-				for (int j = 0; j < totalPath->getLength(); ++j)
-					spurPath.pb(totalPath->getNode(j));
+				//newPath wird am Ende von spurPath eingefuegt
+				for (int j = 0; j < newPath->getLength(); ++j)
+					spurPath.pb(newPath->getNode(j));
 
 				//Erstellung eines neuen Kandidaten
-				totalPath = new Path(spurPath, totalWeight+totalPath->getWeight());
+				Path *totalPath = new Path(spurPath, totalWeight+newPath->getWeight());
 
 				//wir stellen sicher, ob es sich genau so 
 				//einen Pfad noch nicht in der Kandidatenliste gibt  
@@ -189,7 +190,7 @@ public:
 			G->restoreEdge(mp(currNode->getID(), nextNode->getID()));
 
 			//es kann sein, dass das Gewicht an der Kante sich aenderte,
-			//muessen wir es entprechend aktulisieren
+			//muessen wir es entprechend aktualisieren
 			double edgeWeight = G->getEdgeWeight(currNode, nextNode) + rDijkstra.getStartDistance(nextNode);
 
 			//Wenn das Gewicht sich veraenderte, muessen

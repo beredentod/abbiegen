@@ -145,13 +145,8 @@ int main()
 	double currDistProcent;
 	tuple<double, double, vector<int>> currPath;
 
-	pair<double, vector<int>> p;
-	p = yen.generatePath()->retrievePath();
-	cout<<"\n\n\n\n";
-	p = yen.generatePath()->retrievePath();
-
 	//Generierung der Pfade
-	/*generate:
+	generate:
 	do 
 	{
 		pair<double, vector<int>> p;
@@ -243,7 +238,7 @@ int main()
 	//Ausgabe aller Punkte der besten Strasse
 	//mit der niedrigsten Anzahl an Abbiegungen
 	for (auto x: bestPoints)
-		cout << "(" << x.first << ", " << x.second << "), ";
+		cout << "(" << x.first << ", " << x.second << ") ";
 	cout << "\n\n";
 
 	//Vorbereitung auf die graphische Ausgabe
@@ -348,5 +343,5 @@ int main()
 	//eine SVG-Datei mit dem kuerzesten Pfad wird erstellt
 	cout << "\nDer kürzeste Pfad:\n";
 	MakeSVG($OUTPUT_SHORTEST, G.retrieveStartPoint(), G.retrieveEndPoint(), G.retrieveStartPointPivot(),
-		G.retrieveEndPointPivot(), G.retrieveAllPoints(), G.retrieveAllStreets(), vis_path_shortest_turns);*/
+		G.retrieveEndPointPivot(), G.retrieveAllPoints(), G.retrieveAllStreets(), vis_path_shortest_turns);
 }

@@ -39,8 +39,6 @@ void Dijkstra::determineConnections(Node* start, Node* end, bool direction)
 		//ist der aktuelle Knoten
 		Node* currNode = *(pQ.begin());
 
-		std::cout<<currNode->getID()<<"\n";
-
 		//wir entfernen den aktuellen Knoten
 		pQ.erase(pQ.begin());
 		
@@ -222,8 +220,6 @@ void Dijkstra::updateInDistance(Node* n)
 	vector<Node*> v;
 	v.pb(n);
 
-	std::cout<<"Update In: "<<n->getID()<<"\n";
-
 	while(!v.empty())
  	{
 		Node* currNode = *(v.begin());
@@ -255,7 +251,6 @@ void Dijkstra::updateInDistance(Node* n)
 				//wir fuegen den Nachbarn in den Vektor ein,
 				//um auf ihn danach Veraenderungen durchzufuehren
 				v.pb(*it);
-				std::cout<<"next: "<<(*it)->getID()<<"\n";
 			}
 		}
 	}
