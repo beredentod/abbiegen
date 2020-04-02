@@ -1,1 +1,0 @@
-/usr/bin/c++     CMakeFiles/abbiegen.dir/files/main.cpp.o CMakeFiles/abbiegen.dir/files/dijkstra.cpp.o CMakeFiles/abbiegen.dir/files/graph.cpp.o  -o abbiegen  -std=c++1z 
