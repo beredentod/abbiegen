@@ -100,7 +100,7 @@ int main()
 	map<int, double> streetWeights;
 	//map: die Koordinaten der Punkte der Strassen (aus dem Graphen abgerufen)
 	map<int, pair<dPair, dPair>> IDToStreet;
-	
+
 	//der erste Graph -- Muster (Graph G)
 	Graph G1($FILE, 1);
 	Dijkstra dijkstra(&G1);
@@ -110,7 +110,7 @@ int main()
 
 	//die kuerzeste Entfernung vom Startknoten bis zum Zielknoten
 	scale = shortestPath.first;
-	
+
 	//der zweite Graph -- mit Strassen als Knoten (Graph G')
 	Graph G($FILE, 2);
 

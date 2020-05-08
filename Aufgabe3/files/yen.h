@@ -3,6 +3,8 @@
 #define mp make_pair
 #define pb push_back
 
+#include<bits/stdc++.h>
+
 using namespace std;
 
 //***************************************************
@@ -54,7 +56,16 @@ public:
 		G = new Graph(graph);
 		preprocess(); //Vorbereitung des Graphen auf den Yen-Algorithmus 
 	}
+	Yen(){}
 	~Yen(void){}
+
+	void init(const Graph &graph, Node* start, Node* end)
+	{
+		startNode = start;
+		endNode = end;
+		G = new Graph(graph);
+		preprocess(); //Vorbereitung des Graphen auf den Yen-Algorithmus 		
+	}
 
 	//ein "naechster" Pfad des Yen-Algorithmus wird 
 	//hier bestimmt

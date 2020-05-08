@@ -5,6 +5,7 @@
 #define iPair pair<int,int>
 #define dPair pair<double,double>
 
+#include<bits/stdc++.h>
 using namespace std;             
 
 class Graph
@@ -100,7 +101,6 @@ private:
 	void readFileOriginal(string fileName, set<pair<dPair, dPair>> &streetsList, set<dPair> &points);
 	//die Textdatei wird eingelsen und ein Graph-Typ 2 wird erstellt
 	void readFile(string fileName, set<pair<dPair, dPair>> &streetsList, set<dPair> &points, dPair interP = mp(-3,-3));
-
 public:
 
 	Graph(string fileName, int type) //Konstruktor
@@ -108,7 +108,14 @@ public:
 		if (type == 1) readFileOriginal(fileName, streetsList, points);
 		if (type == 2) readFile(fileName, streetsList, points);
 	}
+	Graph(){}
 	~Graph(void){purge();} //Destruktor
+
+	void init (string fileName, int type)
+	{
+		if (type == 1) readFileOriginal(fileName, streetsList, points);
+		if (type == 2) readFile(fileName, streetsList, points);
+	}
 
 	void purge(); //setzt alle Werte zurueck
 

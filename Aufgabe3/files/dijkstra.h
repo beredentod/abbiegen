@@ -27,7 +27,13 @@ private:
 
 public:
 	Dijkstra(Graph* pGraph): G(pGraph) {} //Konstruktor
+	Dijkstra(){};
 	~Dijkstra(void){purge();} //Destruktor
+
+	void init (Graph* pGraph)
+	{
+		G = pGraph;
+	}
 
 	void purge(); //setzt alle Werte zurueck
 
